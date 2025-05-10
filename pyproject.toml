@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "Coordinator Helper API"
+version = "1.0"
+authors = ["Khan Taldybayev"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.12"
+uvicorn = "^0.34.2"
+pydantic-settings = "^2.9.1"
+sentry-sdk = "^2.27.0"
+aiohttp = "^3.11.18"
+pytz = "^2025.2"
+motor = "^3.7.0"
