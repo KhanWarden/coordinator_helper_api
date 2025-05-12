@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, date
 
-from pydantic import BaseModel, field_validator, model_validator
+from pydantic import BaseModel, field_validator
 from typing import Dict, Any, Optional
 
 
@@ -31,11 +31,27 @@ class GameShortSchema(BaseModel):
 
 
 class TeamStaffSchema(BaseModel):
-    host: Optional[str]
-    dj: Optional[str]
-    cohost: Optional[str]
+    host: Optional[str] = None
+    dj: Optional[str] = None
+    cohost: Optional[str] = None
 
 
 class SchedulePayloadSchema(BaseModel):
-    date: date
+    date: str
     teams: Dict[str, TeamStaffSchema]
+
+    @field_validator("date", mode="before")
+    def covert_date_to_str(cls, value) -> str:
+        if isinstance(value, date):
+            return value.isoformat()
+        if isinstance(value, str):
+            try:
+                parsed = date.fromisoformat(value)
+                return parsed.isoformat()
+            except ValueError:
+                raise ValueError(
+                    f"Invalid date string: {value!r}. Must be in YYYY-MM-DD format."
+                )
+        raise TypeError(
+            f"Invalid type for date: {type(value).__name__}. Expected str or date."
+        )
