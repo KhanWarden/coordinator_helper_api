@@ -23,8 +23,10 @@ class ErpCrawler:
             }
             day_before_date, day_date = self._get_date(date_)
             town_time = self._get_town_utc("Almaty")
-            api_endpoint = (f"https://api.plus-erp.app/api/sales/order?catalog_id=&show_deleted=false&"
-                            f"start_time={day_before_date}T{town_time}&end_time={day_date}T{town_time}&size=-1")
+            api_endpoint = (
+                f"https://api.plus-erp.app/api/sales/order?catalog_id=&show_deleted=false&"
+                f"start_time={day_before_date}T{town_time}&end_time={day_date}T{town_time}&size=-1"
+            )
 
             async with session.get(api_endpoint, headers=headers) as api_response:
                 if api_response.status != 200:
@@ -53,16 +55,17 @@ class ErpCrawler:
         day_before_date = current_date - timedelta(days=1)
         return day_before_date.strftime("%Y-%m-%d"), current_date.strftime("%Y-%m-%d")
 
-    async def _get_erp_user_headers(self, session: aiohttp.ClientSession) -> ErpUserSchema:
+    async def _get_erp_user_headers(
+        self, session: aiohttp.ClientSession
+    ) -> ErpUserSchema:
         credentials = {
             "email": settings.PLUS_ERP_LOGIN,
             "password": settings.PLUS_ERP_PASSWORD,
         }
 
-        async with session.post(LOGIN_URL,
-                                json=credentials,
-                                headers={"Content-Type": "application/json"}
-                                ) as login_resp:
+        async with session.post(
+            LOGIN_URL, json=credentials, headers={"Content-Type": "application/json"}
+        ) as login_resp:
             if login_resp.status != 200:
                 raise web.HTTPUnauthorized(text="Invalid credentials")
             login_data = await login_resp.json()

@@ -1,10 +1,10 @@
 from src.db.mongodb.repository import save_schedule, get_schedule_by_date
 from datetime import date
 
-from src.schemas.schedule import ScheduleRequestSchema
+from src.schemas.schedule import SchedulePayloadSchema
 
 
-async def save_schedule_data(schedule_data: ScheduleRequestSchema) -> str:
+async def save_schedule_data(schedule_data: SchedulePayloadSchema) -> str:
     return await save_schedule(schedule_data)
 
 
