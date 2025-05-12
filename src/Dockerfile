@@ -13,10 +13,8 @@ COPY poetry.lock pyproject.toml /app/
 
 RUN poetry install
 
-COPY . /app
+COPY . .
 
 ENV PYTHONPATH=/app
-
-EXPOSE 8000
 
 CMD ["python", "src/main.py"]

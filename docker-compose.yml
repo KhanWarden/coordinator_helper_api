@@ -4,7 +4,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: src/Dockerfile
     container_name: backend
     ports:
       - "8000:8000"
@@ -12,6 +12,15 @@ services:
       - mongo
     environment:
       - MONGO_URI=mongodb://mongo:27017
+      - PYTHONPATH=/app
+  telegram_bot:
+    build:
+      context: .
+      dockerfile: telegram_bot/Dockerfile
+    container_name: telegram_bot
+    depends_on:
+      - backend
+    environment:
       - PYTHONPATH=/app
 
   mongo:
