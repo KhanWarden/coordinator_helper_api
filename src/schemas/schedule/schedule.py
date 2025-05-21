@@ -31,9 +31,9 @@ class GameShortSchema(BaseModel):
 
 
 class TeamStaffSchema(BaseModel):
-    host: Optional[str] = None
-    dj: Optional[str] = None
-    cohost: Optional[str] = None
+    host: Optional[str]
+    dj: Optional[str]
+    cohost: Optional[str]
 
 
 class SchedulePayloadSchema(BaseModel):
